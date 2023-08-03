@@ -1,0 +1,16 @@
+{
+  "name": "BTW-Favorites",
+  "description": "Extension for favorites and search",
+  "version": "1.1",
+  "manifest_version": 3,
+  "content_scripts": [
+      {
+        "js": ["scripts/content.js"],
+        "css": ["scripts/styles.css"],
+        "matches": ["*://www.twitch.tv/*", "*://twitch.tv/*"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}  
