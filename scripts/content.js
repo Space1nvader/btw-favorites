@@ -105,6 +105,7 @@ const initBTWF = (target) => {
     
     target.prepend(searchField)
     searchField.addEventListener('input', onSearchHandler)
+    searchField.addEventListener('click', showFavoritesList)
     showFavoritesList()
 
 }
