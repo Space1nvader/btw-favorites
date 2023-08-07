@@ -3,17 +3,17 @@ const transitionsSelector = '.tw-transition-group';
 const transitionClassName = 'tw-transition'
 const sideBarSelector = document.querySelector('.side-bar-contents')
 let transitions = sideBarSelector.querySelector(transitionsSelector);
-
 let transitionHTMLList;
 const favoriteButtonClassName = 'favoriteButton'
 
+const searchFieldClassName = 'searchField'
 const searchField = document.createElement('input');
-searchField.className = 'searchField';
+searchField.className = searchFieldClassName;
 searchField.placeholder = 'Search...'
 
+
 const addFavoriteButton = (transition) => {
-    
-    
+
     if(!transition?.querySelector(`.${favoriteButtonClassName}`)){
         
         const streamerName = transition.querySelector('p[data-a-target="side-nav-title"]')
@@ -24,37 +24,59 @@ const addFavoriteButton = (transition) => {
         favoriteButton.className = favoriteButtonClassName;
         
         transition.prepend(favoriteButton)
+        
     }
 
 }
 
 
 
-const showFavoritesList = () => {
+const showFavoritesList = (event) => {
     const twitchMoreButton = document.querySelector(`button[data-a-target="side-nav-show-more-button"]`);
 
-
     if(twitchMoreButton){
-        twitchMoreButton.click()
+        twitchMoreButton.click();
         showFavoritesList()
-        
-    }else{
-        const favoritesStorage = window.localStorage.getItem('btwfavorites') || '{}';
-        const favorites = JSON.parse(favoritesStorage)
-        transitionHTMLList = Array.from(transitions.children).filter((transition) => {
-            transition.style.transition = 'all .2s';
-
-            addFavoriteButton(transition)
-            const streamerName = transition.querySelector('p[data-a-target="side-nav-title"]')?.textContent
-
-            if(favorites[streamerName]){  
-                
-                transition.dataset.btwactive = 'active'
-            }
-            return transition.className.includes(transitionClassName)
-        })
     }
-} 
+    else{
+        const favoritesStorage = window.localStorage.getItem('btwfavorites') || '{}';
+        const favorites = JSON.parse(favoritesStorage);
+
+        transitionHTMLList = Array.from(transitions.children).filter((transition) => {
+            
+            const isTargetTransition = transition.className.includes(transitionClassName);
+
+            if(isTargetTransition){
+                transition.style.transition = 'all .2s';
+
+                addFavoriteButton(transition)
+                const streamerName = transition.querySelector('p[data-a-target="side-nav-title"]')?.textContent
+    
+                if(favorites[streamerName]){  
+                    transition.dataset.btwactive = 'active';
+    
+                    if(!transition?.dataset?.btwinsert){
+                        console.log('transition', transition)
+                        transition.dataset.btwinsert = '1';
+                        transitions.prepend(transition)
+                    }
+    
+                }
+                return true
+            }
+            return false
+           
+        })
+        
+        if(event?.target?.className === searchFieldClassName){
+            
+            searchField.focus()
+        }
+    }
+
+}
+
+
 
 
 
@@ -92,11 +114,17 @@ const onFavoriteClickHandler = (event) =>{
         
         window.localStorage.setItem('btwfavorites', JSON.stringify({...favorites, [event.target.dataset.streamer]: !favorites[event.target.dataset.streamer] }))
     }
+
+    
+    if(event.isTrusted && event.target.dataset.aTarget === "side-nav-show-more-button"){
+        showFavoritesList()
+    }
 }
 
 
 const initBTWF = (target) => {
     document.addEventListener('click', onFavoriteClickHandler)
+
     transitionHTMLList = Array.from(target.children).filter((transition) => {
         transition.style.transition = 'all .2s';
         addFavoriteButton(transition)

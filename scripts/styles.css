@@ -36,13 +36,10 @@
 }
 
 .side-bar-contents .tw-transition{
-    order: 1;
     position: relative;
     
 }
-.side-bar-contents .tw-transition[data-btwactive="active"]{
-    order: 0;
-}
+
 .side-bar-contents .tw-transition[data-btwactive="active"] .favoriteButton{
     opacity: 1;
     color: var(--color-text-brand);
