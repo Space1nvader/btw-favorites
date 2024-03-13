@@ -10,6 +10,7 @@ const searchFieldClassName = 'searchField'
 const searchField = document.createElement('input');
 searchField.className = searchFieldClassName;
 searchField.placeholder = 'Search...'
+searchField.type = 'search'
 
 
 const addFavoriteButton = (transition) => {
@@ -28,6 +29,8 @@ const addFavoriteButton = (transition) => {
     }
 
 }
+
+
 
 
 
@@ -135,6 +138,9 @@ const initBTWF = (target) => {
     searchField.addEventListener('input', onSearchHandler)
     searchField.addEventListener('click', showFavoritesList)
     showFavoritesList()
+    setInterval(()=>{
+        showFavoritesList()
+    },  10000)
 
 }
 
