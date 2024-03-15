@@ -5,6 +5,8 @@ const sideBarSelector = document.querySelector('.side-bar-contents')
 let transitions = sideBarSelector.querySelector(transitionsSelector);
 let transitionHTMLList;
 const favoriteButtonClassName = 'favoriteButton'
+const COLLAPSED_WIDTH = 50
+let isInited = false;
 
 const searchFieldClassName = 'searchField'
 const searchField = document.createElement('input');
@@ -32,8 +34,6 @@ const addFavoriteButton = (transition) => {
 
 
 
-
-
 const showFavoritesList = (event) => {
     const twitchMoreButton = document.querySelector(`button[data-a-target="side-nav-show-more-button"]`);
 
@@ -58,8 +58,7 @@ const showFavoritesList = (event) => {
                 if(favorites[streamerName]){  
                     transition.dataset.btwactive = 'active';
     
-                    if(!transition?.dataset?.btwinsert){
-                        console.log('transition', transition)
+                    if(!transition?.dataset?.btwinsert){   
                         transition.dataset.btwinsert = '1';
                         transitions.prepend(transition)
                     }
@@ -78,8 +77,6 @@ const showFavoritesList = (event) => {
     }
 
 }
-
-
 
 
 
@@ -124,10 +121,32 @@ const onFavoriteClickHandler = (event) =>{
     }
 }
 
+const sideBarResizeObserver = new ResizeObserver((entries) => {
 
-const initBTWF = (target) => {
+    for(let entry of entries){
+        console.log('entry.target.width ', entry.contentRect.width)
+        if( entry.contentRect.width > COLLAPSED_WIDTH) {
+           entry.target.classList.remove('btw-collapse') 
+           console.log(' entry.contentRect.width', entry.contentRect.width )
+           initBTWF(transitions)   
+          } else{
+            entry.target.classList.add('btw-collapse');
+          }
+    }
+
+
+})
+
+ 
+   
+    const initBTWF = (target) => {
+        if(isInited){
+            return null;
+        }
+        isInited = true;
+    
     document.addEventListener('click', onFavoriteClickHandler)
-
+    
     transitionHTMLList = Array.from(target.children).filter((transition) => {
         transition.style.transition = 'all .2s';
         addFavoriteButton(transition)
@@ -148,10 +167,13 @@ let findTransitionInterval = setInterval(()=>{
     if(!transitions){
         transitions = sideBarSelector.querySelector(transitionsSelector);
     }else{
+        if(transitions.getBoundingClientRect().width > COLLAPSED_WIDTH ){
+            initBTWF(transitions)   
+        }
+        sideBarResizeObserver.observe(sideBarSelector);
         clearInterval(findTransitionInterval)
-        initBTWF(transitions)   
     }
-})
+},300)
 
 
 

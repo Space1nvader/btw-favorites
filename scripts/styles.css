@@ -11,19 +11,22 @@
 .favoriteButton{
     padding: 4px;
     position: absolute;
-    height: 100%;
-    top: 0;
-    left:8px;
     z-index: 1;
-    font-size: 16px;
-    transform: scaleX(1.1);
+    font-size: 30px;
+    left: 12px;
+    text-shadow: 0px 0px 5px red;
+    top: 5px;
+    line-height: 0;
+    height: calc(100% - 10px);
     transition: all .2s;
     opacity: 0;
 }
 
 .favoriteButton:hover{
     opacity: 1;
-    transform: scale(1.2, 1.1);
+    transform: scale(1.1);
+    color: rgba(250, 92, 92, 0.8);
+    text-shadow: 0px 0px 5px black;
 }
 
 
@@ -31,9 +34,7 @@
     display: flex;
     flex-direction: column;
 }
-.side-bar-contents  .side-nav-card{
-    margin-left: 20px;
-}
+
 
 .side-bar-contents .tw-transition{
     position: relative;
@@ -41,10 +42,18 @@
 }
 
 .side-bar-contents .tw-transition[data-btwactive="active"] .favoriteButton{
-    opacity: 1;
     color: var(--color-text-brand);
-    
 }
+.side-bar-contents .tw-transition[data-btwactive="active"] .favoriteButton:hover{
+   color: rgba(255,255,255, .7)
+}
+
 .side-bar-contents  .tw-transition:hover .favoriteButton{
     opacity: 1;
 }
+
+.side-bar-contents.btw-collapse .searchField,
+.side-bar-contents.btw-collapse .favoriteButton {
+    display: none;
+}
+
