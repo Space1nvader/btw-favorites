@@ -37,9 +37,12 @@ const addFavoriteButton = (transition) => {
 const showFavoritesList = (event) => {
     const twitchMoreButton = document.querySelector(`button[data-a-target="side-nav-show-more-button"]`);
 
-    if(twitchMoreButton){
-        twitchMoreButton.click();
-        showFavoritesList()
+    if(typeof twitchMoreButton?.click === 'function'){
+    
+        setTimeout(()=> {
+            twitchMoreButton.click();
+            showFavoritesList()
+        })
     }
     else{
         const favoritesStorage = window.localStorage.getItem('btwfavorites') || '{}';
@@ -84,7 +87,7 @@ const onSearchHandler = (event) => {
     
     const regex = new RegExp(event.target.value, 'gi');
 
-    
+
     transitionHTMLList.forEach((transition) => {
         const streamerName = transition.querySelector('p[data-a-target="side-nav-title"]')
          if(!event.target.value || streamerName?.textContent?.search(regex) !== -1){
@@ -124,10 +127,9 @@ const onFavoriteClickHandler = (event) =>{
 const sideBarResizeObserver = new ResizeObserver((entries) => {
 
     for(let entry of entries){
-        console.log('entry.target.width ', entry.contentRect.width)
+        
         if( entry.contentRect.width > COLLAPSED_WIDTH) {
            entry.target.classList.remove('btw-collapse') 
-           console.log(' entry.contentRect.width', entry.contentRect.width )
            initBTWF(transitions)   
           } else{
             entry.target.classList.add('btw-collapse');
