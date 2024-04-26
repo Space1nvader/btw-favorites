@@ -73,6 +73,9 @@ const showFavoritesList = (event) => {
            
         })
         
+        if(!transitionHTMLList?.length){
+
+        }
         if(event?.target?.className === searchFieldClassName){
             
             searchField.focus()
@@ -84,7 +87,7 @@ const showFavoritesList = (event) => {
 
 
 const onSearchHandler = (event) => {
-    
+    let hiddenTransitionsLength = 0;
     const regex = new RegExp(event.target.value, 'gi');
 
 
@@ -95,11 +98,18 @@ const onSearchHandler = (event) => {
             transition.style.opacity = 1; 
             transition.style.overflow = 'auto'
          } else{
+            hiddenTransitionsLength++ 
             transition.style.maxHeight = '0px'; 
             transition.style.opacity = 0; 
             transition.style.overflow = 'hidden'
          }
     })
+// Тут будет код который показывает надпись о том что ни одного стримера нет
+// Надо еще будет подумать о том что бы искать в глобальном поиске если ничего не нашлось, но там вроде апи твитча придется подрубать
+// хотя наверное можно просто в поле поиска твитча пихнуть значения из моего поиска по желанию пользователя  
+    if(transitionHTMLList.length === hiddenTransitionsLength){
+        //
+    }
 }
 
 
