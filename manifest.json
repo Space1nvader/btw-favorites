@@ -1,7 +1,7 @@
 {
   "name": "BTW-Favorites",
   "description": "Extension for favorites and search",
-  "version": "1.5",
+  "version": "1.6",
   "manifest_version": 3,
   "content_scripts": [
       {
