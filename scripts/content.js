@@ -1,7 +1,8 @@
 
 const transitionsSelector = '.tw-transition-group';
+
 const transitionClassName = 'tw-transition'
-const sideBarSelector = document.querySelector('.side-bar-contents')
+let sideBarSelector = document.querySelector('.side-bar-contents');
 let transitions = sideBarSelector.querySelector(transitionsSelector);
 let transitionHTMLList;
 const favoriteButtonClassName = 'favoriteButton'
@@ -176,10 +177,12 @@ const sideBarResizeObserver = new ResizeObserver((entries) => {
 }
 
 let findTransitionInterval = setInterval(()=>{
+
     if(!transitions){
+        sideBarSelector = document.querySelector('.side-bar-contents');
         transitions = sideBarSelector.querySelector(transitionsSelector);
     }else{
-        if(transitions.getBoundingClientRect().width > COLLAPSED_WIDTH ){
+        if(transitions.getBoundingClientRect().width > COLLAPSED_WIDTH){
             initBTWF(transitions)   
         }
         sideBarResizeObserver.observe(sideBarSelector);
