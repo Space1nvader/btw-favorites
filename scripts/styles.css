@@ -1,13 +1,34 @@
-.searchField {
+.btwContainer {
     order: -1;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.searchField {
     margin: 0.5rem 1rem;
     background: transparent;
     color: var(--color-text-base);
     padding: 0.4rem;
     border: 2px solid rgba(255,255,255, .4);
-    width: calc(100% - 2rem);
+    width: 75%;
     border-radius: 4px; 
 }
+.hideButton{
+    margin-right: 1.4rem;
+}
+.hideButton[data-hide="1"] path{
+    stroke: #ffffff;
+}
+.hideButton path{
+    transition: all .3s;
+    stroke: rgba(255,255,255, .4);
+}
+.hideButton:hover path{
+    opacity: .8;
+     stroke: #ffffff;
+}
+
 .favoriteButton{
     padding: 4px;
     position: absolute;
