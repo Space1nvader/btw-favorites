@@ -83,7 +83,6 @@ const closeSupportAdsModal = () =>{
         if(overlay){
             const closeBtn = overlay.querySelector('button');
             closeBtn.click()
-
         }
     }
 
